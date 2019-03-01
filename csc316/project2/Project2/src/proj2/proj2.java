@@ -18,12 +18,14 @@ public class proj2 {
 			Node childArray[];
 			int childrenNum;
 			char person;
+			boolean mark;
 			
 			Node( Node children[], int num, char p ){
 				//parent = parentNode;
 				childArray = children;
 				childrenNum = num;
 				person = p;
+				mark = false;
 			}
 			
 			
@@ -32,6 +34,7 @@ public class proj2 {
 				childArray = null;
 				childrenNum = 0;
 				person = p;
+				mark = false;
 			}
 		}
 	//}
@@ -58,12 +61,12 @@ public class proj2 {
 				children[j] = buildTree( 1, prestart + 1 + j, poststart + j );
 			}
 			Node current = new Node( children, size - 1, pretrav[prestart] );
-			System.out.println(current.person);
-			for ( int l = 0; l < size-1; l++ ) {
-				System.out.print(current.childArray[l].person);
-				System.out.print(", ");
-			}
-			System.out.println("");
+			//System.out.println(current.person);
+			//for ( int l = 0; l < size-1; l++ ) {
+				//System.out.print(current.childArray[l].person);
+				//System.out.print(", ");
+			//}
+			//System.out.println("");
 			return current;
 		} else {
 			int childrenNum = 0;
@@ -86,12 +89,12 @@ public class proj2 {
 				childpoststart += subSize;
 			}
 			Node current = new Node( children, childrenNum, pretrav[prestart]);
-			System.out.println(current.person);
-			for ( int l = 0; l < childrenNum; l++ ) {
-				System.out.print(current.childArray[l].person);
-				System.out.print(", ");
-			}
-			System.out.println("");
+			//System.out.println(current.person);
+			//for ( int l = 0; l < childrenNum; l++ ) {
+				//System.out.print(current.childArray[l].person);
+				//System.out.print(", ");
+			//}
+			//System.out.println("");
 			return current;
 		}
 		//return null;
@@ -99,6 +102,7 @@ public class proj2 {
 	
 	/**
 	public static void printTree( Node p ){
+		
 		//System.out.print(p.person + ", ");
 		if( p.childrenNum != 0 ) {
 			for( int i = 0; i < p.childrenNum; i++ ) {
@@ -110,6 +114,35 @@ public class proj2 {
 		}
 	}
 	*/
+	
+	public static void printTree( Node p, Node[] queue)
+	{
+		if( p == null ) {
+			return;
+		}
+		int size = 0;
+		int front = 0;
+		int back = 0;
+		queue[front] = p;
+		back++;
+		size++;
+		while( size != 0 ) {
+			Node q = queue[front];
+			front++;
+			size--;
+			System.out.print(q.person);
+			for( int i = 0; i < q.childrenNum; i++ ) {
+				queue[back] = q.childArray[i];
+				size++;
+				back++;
+			}
+			if( size != 0 ) {
+				System.out.print(", ");
+			}
+		}
+		System.out.print(".");
+		
+	}
     
     public static void main( String args[] ) throws FileNotFoundException
     {
@@ -161,6 +194,15 @@ public class proj2 {
          }
          
          Node root = buildTree( size, 0, 0 );
+         Node printQueue[] = new Node[size];
+         /**
+         System.out.print(root.person);
+         for( int i = 0; i < root.childrenNum; i++ ) {
+        	 printTree( root.childArray[i], printQueue );
+         }
+         System.out.print(".");
+         */
+         printTree(root, printQueue);
          //System.out.print(root.person);
          //printTree( root );
          testInput.close();
