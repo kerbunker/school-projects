@@ -143,7 +143,78 @@ public class proj2 {
 		System.out.print(".");
 		
 	}
+	
+	public static boolean findAndMark( Node p, char find )
+	{
+		if( p.person == find ) {
+			p.mark = true;
+			return true;
+		} else if( p.childrenNum == 0 ) {
+			return false;
+		} else {
+			int i = 0;
+			boolean found = false;
+			while( !found && i < p.childrenNum ) {
+				found = findAndMark( p.childArray[i], find );
+				i++;
+			}
+			if( found ) {
+				p.mark = true;
+				return found;
+			} else {
+				return false;
+			}
+		}
+	}
     
+	public static int findCommon( Node p, char B, boolean found )
+	{
+		//If this is the correct node and it is marked,
+		//this is the lowest common ancestor.
+		//Therefore, found is now true
+		if( p.person == B ) {
+			if( p.mark ) {
+				found = true;
+			}
+			return 0;//return 0 because this is the current gen
+		} else if( p.childrenNum == 0 ) {
+			//if this is not the right person, but there are no
+			//children nodes, return -1 because there is nowhere else to look
+			return -1;
+		} else {
+			int gen = -1;//Set to be obvious when the common ancestor has been found
+			int i = 0;//keeps track of the child the program is on
+			//while the common ancestor has not been found, and there are more children to check
+			while( gen < 0 && i < p.childrenNum ) {
+				//recursively call the method with the next child node
+				gen = findCommon( p.childArray[i], B, found );
+				i++;//increase the child to look through
+			}
+			//if gen is >= 0; person B has been found
+			if( gen >= 0 ) {
+				//if the common ancestor has also been found, all the nodes above the
+				//ancestor have been marked. We want to unmark all but the common ancestor
+				if ( found ) {
+					p.mark = false;//unmark this node
+					//The distance from B to the common ancestor has been found,
+					//and we don't want to add to that number
+					return gen;
+				//if the common ancestor has not been found, but this node is marked
+				//that means this node if the lowest common ancestor
+				} else if( p.mark ) {
+					found = true;//found is now true
+					return gen + 1;//add one more for this current gen to the distance from B
+				} else {
+					//B has been found but the common ancestor has not been so add to the distance
+					return gen + 1;
+				}
+			} else {
+				//The program looked through all the children in this tree and did no find B
+				return -1;
+			}
+		}
+	}
+	
     public static void main( String args[] ) throws FileNotFoundException
     {
     	/**
@@ -171,7 +242,7 @@ public class proj2 {
     	 String preorder = testInput.nextLine();
     	 String postorder = testInput.nextLine();
     	
-         pretrav= new char[250];
+         pretrav= new char[253];
          int strLen = preorder.length();
          int size= 0;
          for ( int i = 0; i < strLen; i++ ){
@@ -195,6 +266,37 @@ public class proj2 {
          
          Node root = buildTree( size, 0, 0 );
          Node printQueue[] = new Node[size];
+         
+         String queryLine;
+         
+         while( testInput.hasNextLine()) {
+        	 queryLine = testInput.nextLine();
+        	 if( queryLine.charAt(0) != '?' ) {
+        		 System.out.println( "Query line error" );
+        	 } else {
+        		 char current;
+        		 int i = 1;
+        		 current = queryLine.charAt(i);
+        		 while( current == ' ' || current == '>' || current == '<'
+        				 || current == ',' || current == '?' || current == '.' ) {
+        			 i++;
+        			 current = queryLine.charAt(i);
+        		 }
+        		 i++;
+        		 char personA = current;
+        		 current = queryLine.charAt(i);
+        		 while( current == ' ' || current == '>' || current == '<'
+        				 || current == ',' || current == '?' || current == '.' ) {
+        			 i++;
+        			 current = queryLine.charAt(i);
+        		 }
+        		 char personB = current;
+        		 boolean found = findAndMark( root, personA );
+        		 
+        		 //distance from B to common ancestor
+        		 int genBtoCommon = findCommon( root, personB, false );
+        	 }
+         }
          /**
          System.out.print(root.person);
          for( int i = 0; i < root.childrenNum; i++ ) {
