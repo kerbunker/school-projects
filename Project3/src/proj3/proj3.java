@@ -61,27 +61,26 @@ public class proj3 {
 	
     public static void main( String args[] ) throws FileNotFoundException
     {
-        //System.out.println( "Enter the input file: " );
+        System.out.println( "Enter the input file: " );
         Scanner input = new Scanner( System.in );
-        //String fileName = input.nextLine();
-        //File inputFile = new File( fileName );
-        //Scanner fileScanner = new Scanner( inputFile );
+        String fileName = input.nextLine();
+        File inputFile = new File( fileName );
+        Scanner fileScanner = new Scanner( inputFile );
         heapArray = new Edge[ 5000 ];
         heapSize = 0;
 
-        //be sure to change this back to fileScanner when complete
-        int current = input.nextInt();
+        int current = fileScanner.nextInt();
         while ( current != -1 ) {
             int v1 = current;
-            int v2 = input.nextInt();
-            double w = input.nextDouble();
+            int v2 = fileScanner.nextInt();
+            double w = fileScanner.nextDouble();
             Edge currentEdge = new Edge( v1, v2, w );
             insert( currentEdge, heapSize );
-            current = input.nextInt();	
+            current = fileScanner.nextInt();	
         }
 		
         printHeap( 0 );
-        //fileScanner.close();
+        fileScanner.close();
         input.close();
     }
 
