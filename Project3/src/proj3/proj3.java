@@ -2,40 +2,88 @@ package proj3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class proj3 {
+    
+    public static Edge head;
 
 
     
-    public static void insertMST( Edge head, Edge e )
+    public static void insertMST( Edge e )
     {
         if( head == null ) {
             head = e;
         } else {
             Edge current = head;
-            while( current.getNext()!= null ) {
-                current = current.getNext();
+            if( current.getVertex1() > e.getVertex1() ) {
+                e.setNext( current );
+                head = e;
+            } else {
+                if( current.getVertex1() == e.getVertex1() && 
+                        current.getVertex2() >= e.getVertex2() ) {
+                        e.setNext( current );
+                        head = e;
+                } else {
+                    boolean found = false;
+                    while( current.getNext()!= null ) {
+                        if( current.getNext().getVertex1() > e.getVertex1() ) {
+                            e.setNext( current.getNext() );
+                            current.setNext( e );
+                            found = true;
+                        } else {
+                            if( current.getNext().getVertex1() == e.getVertex1() && 
+                                    current.getNext().getVertex2() >= e.getVertex2() ) {
+                                e.setNext( current.getNext() );
+                                current.setNext( e );
+                                found = true;
+                            } else {
+                                current = current.getNext();
+                            }
+                        }
+                    }
+                    if( !found ) {
+                        current.setNext( e );
+                    }
+                }
             }
-            current.setNext( e );
         }
     }
     
+    public static void printMST( PrintWriter writer, Edge current ) {
+        int v1 = current.getVertex1();
+        int v2 = current.getVertex2();
+        if( v1 < v2 ) {
+            writer.printf( "%4d %4d\n", v1, v2 );
+        } else {
+            writer.printf( "%4d %4d\n", v2, v1 );
+        }
+        writer.flush();
+        if( current.getNext() != null ) {
+            printMST( writer, current.getNext() );
+        }
+    }   
     
 
 	
-    public static void main( String args[] ) throws FileNotFoundException
+    public static void main( String args[] ) throws FileNotFoundException, UnsupportedEncodingException
     {
         System.out.println( "Enter the input file: " );
         Scanner input = new Scanner( System.in );
         String fileName = input.nextLine();
+        System.out.println( "Enter the output file: " );
+        String outputName = input.nextLine();
         File inputFile = new File( fileName );
+        File outputFile = new File( outputName );
+        PrintWriter writer = new PrintWriter( outputFile );
         Scanner fileScanner = new Scanner( inputFile );
         HeapArray heap = new HeapArray();
         UpTree upTree = new UpTree();
         AdjacencyList adList = new AdjacencyList();
-        Edge head = null;
-        int listMSTSize = 0;
+        head = null;
+        //int listMSTSize = 0;
 
         int current = fileScanner.nextInt();
         int components = 0;
@@ -58,24 +106,24 @@ public class proj3 {
             current = fileScanner.nextInt();	
         }
 		
-        heap.printHeap( 0 );
-        adList.printList( 0 );
-        /**
+        heap.printHeap( writer, 0 );
+        //adList.printList( 0 );
         while( components > 1 ) {
-            Edge minEdge = deleteMin();
-            int setU = find( minEdge.getVertex1() );
-            int setV = find( minEdge.getVertex2() );
+            Edge minEdge = heap.deleteMin();
+            int setU = upTree.find( minEdge.getVertex1() );
+            int setV = upTree.find( minEdge.getVertex2() );
             if( setU != setV ) {
-                union( setU, setV );
-                insertMST( head, minEdge );
-                listMSTSize++;
+                upTree.union( setU, setV );
+                insertMST( minEdge );
+                //listMSTSize++;
                 components--;
             }
         }
-        */
-        
+        printMST( writer, head );
+        adList.printList( writer, 0 );
         fileScanner.close();
         input.close();
+        writer.close();
     }
 
 }

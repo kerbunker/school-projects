@@ -1,5 +1,7 @@
 package proj3;
 
+import java.io.PrintWriter;
+
 public class AdjacencyList {
     
     private Node array[];
@@ -55,20 +57,21 @@ public class AdjacencyList {
         }
     }
     
-    public void printList( int vertex )
+    public void printList( PrintWriter writer, int vertex )
     {
         if( array[ vertex ] != null ) {
             Node current = array[ vertex ];
-            System.out.printf( "%4d", current.getVertex() );
+            writer.printf( "%4d", current.getVertex() );
             while( current.next != null ) {
                 current = current.next;
-                System.out.printf(" %4d", current.getVertex() );
+                writer.printf(" %4d", current.getVertex() );
             }
-            System.out.println( "" );
+            writer.println( "" );
+            writer.flush();
         }
         if( vertex < 1000 ){
             vertex++;
-            printList( vertex );
+            printList( writer, vertex );
         }
     }
     

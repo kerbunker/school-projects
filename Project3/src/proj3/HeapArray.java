@@ -1,5 +1,7 @@
 package proj3;
 
+import java.io.PrintWriter;
+
 public class HeapArray {
     private Edge array[];
     private int size;
@@ -75,6 +77,7 @@ public class HeapArray {
         size--;//decreases the size of the heap
         swap( 0, size );//swaps the end of the array to the root
         downHeap( 0 );//calls the recursive method to re-sort the heap
+        System.out.printf("Min Edge: %4d %4d\n", e.getVertex1(), e.getVertex2());
         return e;//returns the minimum Edge from the heap
     }
     
@@ -83,21 +86,22 @@ public class HeapArray {
      * each edge
      * @param index the index of the Edge to print
      */
-    public void printHeap( int index )
+    public void printHeap( PrintWriter writer, int index )
     {
         //gets the two vertices of the edge
         int v1 = array[ index ].getVertex1();
         int v2 = array[ index ].getVertex2();
         //checks which vertex is larger and prints the smaller one then the larger
         if( v1 < v2 ){
-            System.out.printf( "%4d %4d\n", v1, v2 );
+            writer.printf( "%4d %4d\n", v1, v2 );
         } else {
-            System.out.printf( "%4d %4d\n", v2, v1 );
+            writer.printf( "%4d %4d\n", v2, v1 );
         }
+        writer.flush();
         //increases the index then calls the method again to print the next Edge
         index++;
         if( index < size ) {
-            printHeap( index );
+            printHeap( writer, index );
         }
     }
 
