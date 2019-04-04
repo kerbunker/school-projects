@@ -14,28 +14,55 @@ public class proj3 {
     
     public static void insertMST( Edge e )
     {
+        int vertexLow;
+        int vertexHigh;
+        int currentLow;
+        int currentHigh;
+        if( e.getVertex1() < e.getVertex2() ) {
+            vertexLow = e.getVertex1();
+            vertexHigh = e.getVertex2();
+        } else {
+            vertexLow = e.getVertex2();
+            vertexHigh = e.getVertex1();
+        }
         if( head == null ) {
             head = e;
         } else {
             Edge current = head;
-            if( current.getVertex1() > e.getVertex1() ) {
+            if( current.getVertex1() < current.getVertex2() ) {
+                currentLow = current.getVertex1();
+                currentHigh = current.getVertex2();
+            } else {
+                currentLow = current.getVertex2();
+                currentHigh = current.getVertex1();
+            }
+            if( currentLow > vertexLow ) {
                 e.setNext( current );
                 head = e;
             } else {
-                if( current.getVertex1() == e.getVertex1() && 
-                        current.getVertex2() >= e.getVertex2() ) {
+                if( currentLow == vertexLow && 
+                        currentHigh >= vertexHigh ) {
                         e.setNext( current );
                         head = e;
                 } else {
                     boolean found = false;
-                    while( current.getNext()!= null ) {
-                        if( current.getNext().getVertex1() > e.getVertex1() ) {
+                    int nextLow;
+                    int nextHigh;
+                    while( current.getNext()!= null && !found ) {
+                        if( current.getNext().getVertex1() < current.getNext().getVertex2()) {
+                            nextLow = current.getNext().getVertex1();
+                            nextHigh = current.getNext().getVertex2();
+                        } else {
+                            nextLow = current.getNext().getVertex2();
+                            nextHigh = current.getNext().getVertex1();
+                        }
+                        if( nextLow > vertexLow ) {
                             e.setNext( current.getNext() );
                             current.setNext( e );
                             found = true;
                         } else {
-                            if( current.getNext().getVertex1() == e.getVertex1() && 
-                                    current.getNext().getVertex2() >= e.getVertex2() ) {
+                            if( nextLow == vertexLow && 
+                                    nextHigh >= vertexHigh ) {
                                 e.setNext( current.getNext() );
                                 current.setNext( e );
                                 found = true;
@@ -65,6 +92,19 @@ public class proj3 {
             printMST( writer, current.getNext() );
         }
     }   
+    
+    public static void printTESTMST( Edge current ) {
+        int v1 = current.getVertex1();
+        int v2 = current.getVertex2();
+        if( v1 < v2 ) {
+            System.out.printf( "%4d %4d\n", v1, v2 );
+        } else {
+            System.out.printf( "%4d %4d\n", v2, v1 );
+        }
+        if( current.getNext() != null ) {
+            printTESTMST( current.getNext() );
+        }
+    }
     
 
 	
@@ -106,7 +146,7 @@ public class proj3 {
             current = fileScanner.nextInt();	
         }
 		
-        heap.printHeap( writer, 0 );
+        //heap.printHeap( writer, 0 );
         //adList.printList( 0 );
         while( components > 1 ) {
             Edge minEdge = heap.deleteMin();
@@ -115,11 +155,12 @@ public class proj3 {
             if( setU != setV ) {
                 upTree.union( setU, setV );
                 insertMST( minEdge );
+                printTESTMST( head );
                 //listMSTSize++;
                 components--;
             }
         }
-        printMST( writer, head );
+        //printMST( writer, head );
         adList.printList( writer, 0 );
         fileScanner.close();
         input.close();
