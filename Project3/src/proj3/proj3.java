@@ -18,6 +18,7 @@ import java.util.Scanner;
  * already connected, their respective up-trees undergo a balanced union. This continues with each
  * successive minimum Edge until all the vertices have been connected into a single up-tree, and
  * thus, the minimum spanning tree has been determined. 
+ * @author Katelyn Bunker (kbunker)
  */
 public class proj3 {
     
@@ -177,8 +178,8 @@ public class proj3 {
             Edge currentEdge = new Edge( v1, v2, w );
             heap.insert( currentEdge );
             //adds the Edge to the adjacency list
-            adList.insert( v1, v2, currentEdge );
-            adList.insert( v2, v1, currentEdge );
+            adList.insert( v1, v2 );
+            adList.insert( v2, v1 );
             //checks if the given vertices are in the upTree array already and adds them if not
             if( upTree.getKey( v1 ) == 0 ) {
                 upTree.setKey(v1, -1);
