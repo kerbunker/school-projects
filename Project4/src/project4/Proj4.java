@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Proj4 {
+    public static int probeNum = 0;
     public static Node hashTable[];
     public static int tableSize;
 	
@@ -21,18 +22,64 @@ public class Proj4 {
         }
     }
     
-    public static double hashFunction( String key, double r )
+    public static boolean wordCheck( int wordHash, String word )
     {
-        double hashKey = 1;
+        Node tableNode = hashTable[ wordHash ];
+        boolean found = false;
+        if( tableNode == null ) {
+            return found;
+        } else if( tableNode.key.compareTo(word) == 0 ) {
+            probeNum+= 1;
+            found = true;
+            return found;
+        } else {
+            probeNum++;
+            while( tableNode.next != null && !found ) {
+                if( tableNode.next.key.compareTo(word) == 0 ) {
+                    found = true;
+                } else {
+                    tableNode = tableNode.next;
+                }
+                probeNum++;
+            }
+        }
+        return found;
+    }
+    
+    public static boolean spellCheck( String word )
+    {
+        int wordHash = (int) hashFunction( word );
+        boolean found = false;
+        if( !wordCheck( wordHash, word ) ) {
+            String newWord = word;
+            int newHash;
+            if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                newHash = (int) hashFunction( newWord );
+                if( wordCheck( newHash, newWord ) ) {
+                    found = true;
+                }
+            }
+        } else {
+            found = true;
+        }
+        return found;
+    }
+    
+    public static double hashFunction( String key )
+    {
+        double hashKey = 7;
+        int r = 7;
         int strSize = key.length();
         for( int i = 0; i < strSize; i++ ) {
-            hashKey *= key.charAt(i);
-            System.out.println( hashKey );
+            hashKey = hashKey * r + key.charAt(i);
+            //System.out.println( hashKey );
         }
-        hashKey *= r;
-        hashKey = hashKey - Math.floor(hashKey);
-        hashKey = Math.floor(tableSize * hashKey);
-        System.out.println( hashKey );
+        hashKey = hashKey % tableSize;
+        //hashKey *= g;
+        //hashKey = hashKey - Math.floor(hashKey);
+        //hashKey = Math.floor(tableSize * hashKey);
+        //System.out.println( hashKey );
         
         return hashKey;
     }
@@ -46,33 +93,38 @@ public class Proj4 {
 	    File dictionaryFile = new File( dictionaryName );
 	    Scanner dictionaryScanner = new Scanner( dictionaryFile );
 	    
-	    /**
 	    System.out.println( "Enter the file to be spell checked: " );
 	    String inputName = input.nextLine();
 	    File inputFile = new File( inputName );
 	    Scanner fileScanner = new Scanner( inputFile );
 	    
+	    /**
 	    System.out.println( "Enter the output file: " );
 	    String outputName = input.nextLine();
 	    File outputFile = new File( outputName );
 	    PrintWriter output = new PrintWriter( outputFile );
 	     */
-        tableSize = 50000;
+	    
+        tableSize = 30000;
 
         hashTable = new Node[tableSize];
-        double r = 1/((1 + Math.sqrt(5))/2);
-
+        //double g = 1/((1 + Math.sqrt(5))/2);
+        
+        
         int collisionCount = 0;
+        int dictionaryCount = 0;
         int wordCount = 0;
+        int misspellCount = 0;
         int maxList = 0;
+        //int probeNum = 0;
 		while( dictionaryScanner.hasNext() ) {
-		    wordCount++;
+		    dictionaryCount++;
 		    String key = dictionaryScanner.next();
 		    Node current = new Node( key );
-		    int index = (int) hashFunction( key, r );
+		    int index = (int) hashFunction( key );
 		    if( hashTable[ index ] != null ) {
 		        int listLen = 2;
-		        System.out.println( "Collision!" );
+		        //System.out.println( "Collision!" );
 		        collisionCount++;
 		        Node p = hashTable[ index ];
 		        while( p.next != null ) {
@@ -85,14 +137,28 @@ public class Proj4 {
 		        hashTable[ index ] = current;
 		    }
 		}
-		System.out.println( "Collision Count: " + collisionCount );
-		System.out.println( "Word Count: " + wordCount );
-		System.out.println( "Max list length: " + maxList );
 		
+		while( fileScanner.hasNext() ) {
+		    String word = fileScanner.next();
+		    wordCount++;
+		    if( !spellCheck( word ) ) {
+		        System.out.println( word );
+		        misspellCount++;
+		    }
+		}
+		//System.out.println( "Collision Count: " + collisionCount );
+		//System.out.println( "Word Count: " + wordCount );
+		//System.out.println( "Max list length: " + maxList );
+		
+		System.out.println( "Words in dictionary: " + dictionaryCount );
+		System.out.println( "Words in file: " + wordCount );
+		System.out.println( "Misspelled words: " + misspellCount );
+		System.out.println( "Probes: " + probeNum );
+		System.out.println( "Average Probes: " + ( probeNum/wordCount ) );
 		input.close();
 		dictionaryScanner.close();
-		/**
 		fileScanner.close();
+		/**
 		output.close();
 		*/
 	}
