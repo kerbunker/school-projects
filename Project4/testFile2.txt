@@ -1,0 +1,31 @@
+After reading the word file and building the hash table, the program will switch to its spellingchecking mode. The program will read the user’s text file word by word, checking the spelling of
+each word. If a word appears to be mispelled, the program must write it out.
+As your program searches for each text word, it should count the number of probes in the hash
+table. For the purposes of counting, a probe occurs whenever a text word is compared to a word
+in the table. A probe does not occur when a text word is compared to an empty table entry. Your
+program should print out the total number of probes it made during the spelling-checking phase
+before it terminates.
+The dictionary does not contain every English word. It contains understand, but not understands
+or understanding. You are expected to strip off certain common suffixes and try again if the word
+is not found in its original form. Always search for the whole word first. If it is not found, apply
+the following rules:
+• If the first letter of the word is capitalized, down-shift the first letter and try again; this helps
+to find words like The (e.g., words starting a new sentence).
+• If the word ends in “’s”, drop the “’s” and try again; this helps to find words like cook’s.
+• If the word ends in “s”, drop the “s” and try again; this helps to find words like cakes. If it
+ends in “es”, drop the “es” and search a third time; this helps to find dishes.
+• If the word ends in “ed”, drop the “ed” and try again (cooked); if the word is not found, then
+drop only the “d” and try a third time (baked).
+• If the word ends in “er”, drop the “er” and try again (cooker); if the word is not found, then
+drop only the “r” and try a third time (baker).
+• If the word ends in “ing”, drop the “ing” and try again (cooking); then replace “ing” with
+“e” and try a third time (baking).
+• If the word ends in “ly”, drop the “ly” and try again (deliciously).
+Finally, you should regard the apostrophe as a letter. Words like don’t should not be broken into
+two pieces in either phase of the program.
+These rules don’t sound too bad, but remember that you’d have to apply three different rules to
+reduce Bakers or Baker’s to the dictionary entry bake.
+This list of rules is certainly not complete. You should expect some correctly spelled words to be
+flagged as misspelled by your program. And, you should expect some incorrectly spelled words
+(bakeer) to be missed. (The Unix spell program suffers from the same problems, but is still very
+useful.)
