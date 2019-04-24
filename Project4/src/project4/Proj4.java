@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Proj4 {
     public static int probeNum = 0;
+    public static int lookupNum = 0;
     public static Node hashTable[];
     public static int tableSize;
 	
@@ -50,115 +51,177 @@ public class Proj4 {
     {
         int wordHash = (int) hashFunction( word );
         boolean found = false;
+        int strLength = word.length();
+        int newLength = 0;
+        lookupNum++;
         if( !wordCheck( wordHash, word ) ) {
             String newWord = word;
             int newHash;
             if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                 newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord ) ) {
                     found = true;
                 }
             }
-            if( !found && word.substring( word.length()-2 ).compareTo("'s") == 0 ) {
+            if( !found && strLength > 2 && word.substring( word.length()-2 ).compareTo("'s") == 0 ) {
                 newWord = word.substring(0, word.length()-2);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
                 } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newLength = newWord.length();
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
                 }
             }
-            if( !found && word.substring( word.length()-1 ).compareTo("s") == 0 ) {
+            if( !found && newLength > 1 && newWord.substring( newWord.length()-1 ).compareTo("s") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-1);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && strLength > 1 && word.substring( word.length()-1 ).compareTo("s") == 0 ) {
                 newWord = word.substring(0, word.length()-1);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
                 } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
                 }
             }
-            if( !found && word.substring( word.length()-2 ).compareTo("es") == 0 ) {
+            if( !found && newLength > 2 && newWord.substring( newWord.length()-2 ).compareTo("es") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-2);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && strLength > 2 && word.substring( word.length()-2 ).compareTo("es") == 0 ) {
                 newWord = word.substring(0, word.length()-2);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
                 } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
                 }
             }
-            if( !found && word.substring( word.length()-2 ).compareTo("ed") == 0 ) {
+            if( !found && newLength > 2 && newWord.substring( newWord.length()-2 ).compareTo("ed") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-2);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && strLength > 2 && word.substring( word.length()-2 ).compareTo("ed") == 0 ) {
                 newWord = word.substring(0, word.length()-2);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
                 } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
                 }
             }
-            if( !found && word.substring( word.length()-1 ).compareTo("d") == 0 ) {
+            if( !found && newLength > 1 && newWord.substring( newWord.length()-1 ).compareTo("d") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-1);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && strLength > 1 && word.substring( word.length()-1 ).compareTo("d") == 0 ) {
                 newWord = word.substring(0, word.length()-1);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
                 } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
                 }
             }
-            if( !found && word.substring( word.length()-2 ).compareTo("er") == 0 ) {
-                newWord = word.substring(0, word.length()-2);
+            if( !found && newLength > 2 && newWord.substring( newWord.length()-2 ).compareTo("er") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-2);
+                newLength = newWord.length();
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
-                } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                     newHash = (int) hashFunction( newWord );
-                    if( wordCheck( newHash, newWord ) ) {
-                        found = true;
-                    }
-                }
-            }
-            if( !found && word.substring( word.length()-1 ).compareTo("r") == 0 ) {
-                newWord = word.substring(0, word.length()-1);
-                newHash = (int) hashFunction( newWord );
-                if( wordCheck( newHash, newWord )) {
-                    found = true;
-                } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
-                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
-                    newHash = (int) hashFunction( newWord );
-                    if( wordCheck( newHash, newWord ) ) {
-                        found = true;
-                    }
-                }
-            }
-            if( !found && word.substring( word.length()-3 ).compareTo("ing") == 0 ) {
-                newWord = word.substring(0, word.length()-3);
-                newHash = (int) hashFunction( newWord );
-                if( wordCheck( newHash, newWord )) {
-                    found = true;
-                } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
-                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
-                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
@@ -166,25 +229,171 @@ public class Proj4 {
                 if( !found ) {
                     newWord = newWord + "e";
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord )) {
                         found = true;
-                    } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                    } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
                         newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                         newHash = (int) hashFunction( newWord );
+                        lookupNum++;
                         if( wordCheck( newHash, newWord ) ) {
                             found = true;
                         }
                     }
                 }
             }
-            if( !found && word.substring( word.length()-2 ).compareTo("ly") == 0 ) {
+            if( !found && strLength > 2 && word.substring( word.length()-2 ).compareTo("er") == 0 ) {
                 newWord = word.substring(0, word.length()-2);
                 newHash = (int) hashFunction( newWord );
+                lookupNum++;
                 if( wordCheck( newHash, newWord )) {
                     found = true;
                 } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
                     newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
                     newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+                if( !found ) {
+                    newWord = newWord + "e";
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord )) {
+                        found = true;
+                    } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                        newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                        newHash = (int) hashFunction( newWord );
+                        lookupNum++;
+                        if( wordCheck( newHash, newWord ) ) {
+                            found = true;
+                        }
+                    }
+                }
+            }
+            
+            if( !found && newLength > 1 && newWord.substring( newWord.length()-1 ).compareTo("r") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-1);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && strLength > 1 && word.substring( word.length()-1 ).compareTo("r") == 0 ) {
+                newWord = word.substring(0, word.length()-1);
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && newLength > 3 && newWord.substring( newWord.length()-3 ).compareTo("ing") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-3);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+                if( !found ) {
+                    newWord = newWord + "e";
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord )) {
+                        found = true;
+                    } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                        newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                        newHash = (int) hashFunction( newWord );
+                        lookupNum++;
+                        if( wordCheck( newHash, newWord ) ) {
+                            found = true;
+                        }
+                    }
+                }
+            }
+            if( !found && strLength > 3 && word.substring( word.length()-3 ).compareTo("ing") == 0 ) {
+                newWord = word.substring(0, word.length()-3);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+                if( !found ) {
+                    newWord = newWord + "e";
+                    newLength = newWord.length();
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord )) {
+                        found = true;
+                    } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                        newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                        newHash = (int) hashFunction( newWord );
+                        lookupNum++;
+                        if( wordCheck( newHash, newWord ) ) {
+                            found = true;
+                        }
+                    }
+                }
+            }
+            if( !found && newLength > 2 && newWord.substring( newWord.length()-2 ).compareTo("ly") == 0 ) {
+                newWord = newWord.substring(0, newWord.length()-2);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( newWord.charAt(0) >= 'A' && newWord.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
+                    if( wordCheck( newHash, newWord ) ) {
+                        found = true;
+                    }
+                }
+            }
+            if( !found && strLength > 2 && word.substring( word.length()-2 ).compareTo("ly") == 0 ) {
+                newWord = word.substring(0, word.length()-2);
+                newLength = newWord.length();
+                newHash = (int) hashFunction( newWord );
+                lookupNum++;
+                if( wordCheck( newHash, newWord )) {
+                    found = true;
+                } else if( word.charAt(0) >= 'A' && word.charAt(0) <= 'Z' ) {
+                    newWord = newWord.substring(0, 1).toLowerCase() + newWord.substring(1);
+                    newHash = (int) hashFunction( newWord );
+                    lookupNum++;
                     if( wordCheck( newHash, newWord ) ) {
                         found = true;
                     }
@@ -198,10 +407,11 @@ public class Proj4 {
     
     public static double hashFunction( String key )
     {
-        double hashKey = 7;
-        int r = 7;
+        double hashKey = 1;
+        double r = 7;
         int strSize = key.length();
         for( int i = 0; i < strSize; i++ ) {
+            //r = Math.pow(r, i);
             hashKey = hashKey * r + key.charAt(i);
             //System.out.println( hashKey );
         }
@@ -227,13 +437,12 @@ public class Proj4 {
 	    String inputName = input.nextLine();
 	    File inputFile = new File( inputName );
 	    Scanner fileScanner = new Scanner( inputFile );
+	    fileScanner.useDelimiter("[^a-zA-Z']");
 	    
-	    /**
 	    System.out.println( "Enter the output file: " );
 	    String outputName = input.nextLine();
 	    File outputFile = new File( outputName );
 	    PrintWriter output = new PrintWriter( outputFile );
-	     */
 	    
         tableSize = 30000;
 
@@ -270,27 +479,29 @@ public class Proj4 {
 		
 		while( fileScanner.hasNext() ) {
 		    String word = fileScanner.next();
-		    wordCount++;
-		    if( !spellCheck( word ) ) {
-		        System.out.println( word );
-		        misspellCount++;
+		    if( word.length() != 0 ) {
+		        wordCount++;
+		        if( !spellCheck( word ) ) {
+		            output.println( word );
+		            misspellCount++;
+		        }
 		    }
 		}
 		//System.out.println( "Collision Count: " + collisionCount );
 		//System.out.println( "Word Count: " + wordCount );
 		//System.out.println( "Max list length: " + maxList );
 		
-		System.out.println( "Words in dictionary: " + dictionaryCount );
-		System.out.println( "Words in file: " + wordCount );
-		System.out.println( "Misspelled words: " + misspellCount );
-		System.out.println( "Probes: " + probeNum );
-		System.out.println( "Average Probes: " + ( probeNum/wordCount ) );
+		output.println( "Words in dictionary: " + dictionaryCount );
+		output.println( "Words in file: " + wordCount );
+		output.println( "Misspelled words: " + misspellCount );
+		output.println( "Probes: " + probeNum );
+		output.println( "Average Probes: " + ( probeNum/wordCount ) );
+		output.println( "Average Probes per lookup " + ( probeNum/lookupNum ) );
+		
 		input.close();
 		dictionaryScanner.close();
 		fileScanner.close();
-		/**
 		output.close();
-		*/
 	}
 
 }

@@ -1,4 +1,4 @@
-After reading the word file and building the hash table, the program will switch to its spellingchecking mode. The program will read the user’s text file word by word, checking the spelling of
+Bakers After reading the word file and building the hash table, the program will switch to its spellingchecking mode. The program will read the user’s text file word by word, checking the spelling of
 each word. If a word appears to be mispelled, the program must write it out.
 As your program searches for each text word, it should count the number of probes in the hash
 table. For the purposes of counting, a probe occurs whenever a text word is compared to a word
